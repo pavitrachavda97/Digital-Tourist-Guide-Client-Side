@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <title>Digital Tourist Guide</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: black;
+        }
+
+        li a {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 500;
+            font-size: 20px;
+            color: black;
+            text-decoration: none;
+        }
+
+        header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 30px 10%;
+            margin: 0px;
+            border-bottom: 2px solid black;
+        }
+
+        #logo {
+            color: black;
+            cursor: pointer;
+            margin-right: auto;
+            font-size: 30px;
+        }
+
+        .navbar {
+            list-style: none;
+        }
+
+        .navbar li {
+            display: inline-block;
+            padding: 0px 20px;
+        }
+
+        .navbar li a {
+            transition: all 0.3s ease 0s;
+        }
+
+        .navbar li a:hover {
+            text-decoration: none;
+            color: #717171;
+        }
+
+        .container {
+			margin: 3rem;
+			margin-left: 30rem;
+			margin-right: 30rem;
+			text-align: center;
+			border: 5px solid black;
+			padding: 30px;
+			border-radius: 20px;
+		}
+
+		.label {
+			border-radius: 20px;
+			padding: 5px;
+		}
+    </style>
+</head>
+<body>
+    <header>
+        <div id="logo">Digital Tourist Guide</div>
+        <nav class="navbar" id="navbar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="find.html">Search</a></li>
+                <li><a href="addItem.html">Add Item</a></li>
+                <li><a href="addPlace.html">Add Place</a></li>
+                <li><a href="login.html">Login/Logout</a></li>
+                <li><a href="index.html#aboutUs">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+		<h1>Login</h1>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+		<br>
+		<form method="POST" action="/login">
+			<label for="username"><h3>Name</h3></label>
+			<br>
+			<input type="username" id="username" class="label" name="username" required><br><br>
+			<label for="email"><h3>Email:</h3></label>
+			<br>
+			<input type="email" id="email" class="label" name="email" required><br><br>
+			<label for="password"><h3>Password:</h3></label>
+			<br>
+			<input type="password" id="password" class="label" name="password" required><br><br>
+			<input type="submit" class="label" value="Login" style="background-color: black; color: white;">
+		</form>
+		<br>
+		<p>Don't have an account yet? <a href="registration.html">Register now!</a></p>
+	</div>
+</body>
+</html>

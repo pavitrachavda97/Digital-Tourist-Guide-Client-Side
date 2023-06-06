@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Tourist Guide</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- css stylesheet -->
+    <style>
+        *
+        {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: black;
+        }
+
+        li a
+        {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 500;
+            font-size: 20px;
+            color: black;
+            text-decoration: none;
+        }
+
+        header
+        {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 30px 10%;
+            margin: 0px;
+            border-bottom: 2px solid black;
+        }
+
+        #logo
+        {
+            color: black;
+            cursor: pointer;
+            margin-right: auto;
+            font-size: 30px;
+        }
+        .navbar
+        {
+            list-style: none;
+        }
+        .navbar li
+        {
+            display: inline-block;
+            padding: 0px 20px;
+        }
+        .navbar li a
+        {
+            transition: all 0.3s ease 0s;
+        }
+
+        .navbar li a:hover
+        {
+            text-decoration: none;
+            color: #717171;
+        }
+
+        /* slider */
+        * 
+        {
+            box-sizing: border-box;
+        }
+        body 
+        {
+            font-family: Verdana, sans-serif;
+        }
+        .mySlides 
+        {
+            display: none;
+        }
+        img 
+        {
+            vertical-align: middle;
+            margin: 20px;
+        }
+
+        .slideshow-container 
+        {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
+
+        .numbertext 
+        {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+        .dot 
+        {
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 1.6s ease;
+        }
+
+        .active
+        {
+            background-color: #717171;
+        }
+
+        .fade 
+        {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade 
+        {
+            from {opacity: .4} 
+            to {opacity: 1}
+        }
+
+        @media only screen and (max-width: 300px) 
+        {
+            .text {font-size: 11px}
+        }
+
+        /* Information */
+        #places
+        {
+            text-align: center;
+            margin: 50px;
+            text-transform: uppercase;
+            font-style: bold;
+            font-size: 20px;
+        }
+
+        #more 
+        {
+            display: none;
+        }
+
+        .cover
+        {
+            width: 20rem;
+        }
+
+        .zone
+        {
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .grid-wrapper
+        {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        }
+
+        .box > img
+        {
+            width: 100%;
+        }
+
+        .box 
+        {
+            text-align: center;
+            background-color: black;
+            padding: 0px;
+            margin: 15px;
+        }
+
+        .zone img
+        {
+            margin: 0px;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+        }
+
+        .about
+        {
+            color: white;
+            text-align: center;
+            padding: 5px;
+            background-color: black;
+            text-decoration: none;
+        }
+
+        .about a
+        {
+            text-decoration: none;
+        }
+
+        a 
+        {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: transparent;
+            -webkit-text-decoration-skip: objects;
+        }
+
+        a:hover
+        {
+            color: #717171;
+        }
+        /* footer */
+        .footer-content
+        {
+            text-align: center;
+            text-decoration: none;
+            margin-top: 20px;
+            padding: 50px;
+            background-color: black;
+        }
+
+        .footer-content h3
+        {
+            color: white;
+            background-color: black;
+        }
+
+        .footer-content p
+        {
+            color: white;
+            background-color: black;
+        }
+
+        /* Information Page */
+        section div
+        {
+            border: 2px solid black;
+            border-radius: 10px;
+            color: black;
+            text-align: center;
+            margin: 30px;
+            padding: 30px;
+        }
+
+        audio
+        {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        section img
+        {
+            margin: 20px;
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+        }
+
+        .overlay_flight_traveldil {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .overlay_flight_traveldil:target {
+            visibility: visible;
+            opacity: 1;
+        }
+        .popup_flight_travlDil {
+            margin: 70px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            width: 30%;
+            position: relative;
+            transition: all 2s ease-in-out;
+        }
+        .popup_flight_travlDil .close_flight_travelDl {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+        .popup_flight_travlDil .content_flightht_travel_dil {
+            max-height: 30%;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="logo">Digital Tourist Guide</div>
+        <nav class="navbar" id="navbar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="find.html">Search</a></li>
+                <li><a href="addItem.html">Add Item</a></li>
+                <li><a href="addPlace.html">Add Place</a></li>
+                <li><a href="login.html">Login/Logout</a></li>
+                <li><a href="#aboutUs">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- slideshow -->
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="/static/img/somnath.jpg" style="width:100%">
+        </div>
+        
+        <div class="mySlides fade">
+            <img src="/static/img/golden-temple.jpg" style="width:100%">
+        </div>
+        
+        <div class="mySlides fade">
+            <img src="/static/img/taj-mahal.jpg" style="width:100%">
+        </div>
+
+        <div class="mySlides fade">
+            <img src="/static/img/dwarka.jpg" style="width:100%">
+        </div>
+    </div>
+        
+    <div style="text-align:center">
+        <span class="dot"></span> 
+        <span class="dot"></span> 
+        <span class="dot"></span> 
+        <span class="dot"></span>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() 
+        {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) 
+            {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) 
+            {
+                slideIndex = 1;
+            }    
+            for (i = 0; i < dots.length; i++) 
+            {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
+        }
+
+        function myFunction() 
+        {
+            var popup = document.getElementById("myPopup");
+            popup.classList.toggle("show");
+        }
+    </script>
+
+    <!-- information -->
+    <p id="places">About Places</p>
+    <div class="zone blue grid-wrapper">
+        <div class="box zone">
+            <img src="/static/img/taj-mahal.jpg">
+            <!-- <button class="about" id="taj-mahal"><a href="">About Place</a></button> -->
+            <a class="button" href="#popup_flight_travlDil1">About Place</a>
+        </div>
+
+        <div class="box zone">
+            <img src="/static/img/kutub-minar.jpg">
+            <a class="button" href="#popup_flight_travlDil2">About Place</a>
+        </div>
+
+        <div class="box zone">
+            <img src="/static/img/lotus-temple.jpg">
+            <a class="button" href="#popup_flight_travlDil3">About Place</a>
+        </div>
+        
+        <div class="box zone">
+            <img src="/static/img/dwarka.jpg">
+            <a class="button" href="#popup_flight_travlDil4">About Place</a>
+        </div>
+    </div>
+
+    <div id="popup_flight_travlDil1" class="overlay_flight_traveldil">
+        <div class="popup_flight_travlDil">
+            <h2>Taj-mahal</h2>
+            <a class="close_flight_travelDl" href="#">&times;</a>
+            <div class="content_flightht_travel_dil">
+                Taj Mahal, also spelled Taj Mahal, mausoleum complex in Agra, western Uttar Pradesh state, northern India. The Taj Mahal was built by the Mughal emperor Shah Jahān (reigned 1628–58) to immortalize his wife Mumtaz Mahalwho died in childbirth in 1631, having been the emperor’s inseparable companion since their marriage in 1612. India’s most famous and widely recognized building, it is situated in the eastern part of the city on the southern (right) bank of the Yamuna (Jumna) River. Agra Fort (Red Fort), also on the right bank of the Yamuna, is about 1 mile (1.6 km) west of the Taj Mahal.In its harmonious proportions and its fluid incorporation of decorative elements, the Taj Mahal is distinguished as the finest example of Mughal architecture, a blend of Indian, Persian, and Islamic styles. Other attractions include twin mosque buildings (placed symmetrically on either side of the mausoleum), lovely gardens, and a museum. One of the most beautiful structural compositions in the world, the Taj Mahal is also one of the world’s most iconic monuments, visited by millions of tourists each year.
+            </div>
+        </div>
+    </div>
+
+    <div id="popup_flight_travlDil2" class="overlay_flight_traveldil">
+        <div class="popup_flight_travlDil">
+            <h2>kutub-minar</h2>
+            <a class="close_flight_travelDl" href="#">&times;</a>
+            <div class="content_flightht_travel_dil">
+                Qutb-Minar in red and buff standstone is the highest tower in India. It has a diameter of 14.32 m at the base and about 2.75 m on the top with a height of 72.5 m. Qutbu'd-Din Aibak laid the foundation of Minar in AD 1199 for the use of the mu'azzin (crier) to give calls for prayer and raised the first storey, to which were added three more storeys by his successor and son-in-law, Shamsu'd-Din Iltutmish.All the storeys are surrounded by a projected balcony encircling the minar and supported by stone brackets, which are decorated with honey-comb design, more conspicuously in the first storey.Quwwat-ul-Islam Mosque, to the north-east of minar was built by Qutbu'd-Din Aibak in AD 1198. It is the earliest extant mosque built by the Delhi Sultans. It consists of a rectangular courtyard enclosed by cloisters, erected with the carved columns and architectural members of 27 Hindu and Jaina temples which were demolished by Qutbu'd-Din Aibak as recorded in his inscription on the main eastern entrance.Later, a lofty arched screen was erected and the mosque was enlarged by Shamsu'd-Din Iltutmish (AD 1210-35) and Alau'd-Din Khalji. The Iron Pillar in the courtyard bears an inscription in Sanskrit in Brahmi script of fourth century AD, according to which the pillar was set up as a Vishnudhvaja (standard of god Vishnu) on the hill known as Vishnupada in memory of a mighty king named Chandra. A deep socket on the top of the ornate capital indicates that probably an image of Garuda was fixed into it.
+            </div>
+        </div>
+    </div>
+
+    <div id="popup_flight_travlDil3" class="overlay_flight_traveldil">
+        <div class="popup_flight_travlDil">
+            <h2>lotus-temple</h2>
+            <a class="close_flight_travelDl" href="#">&times;</a>
+            <div class="content_flightht_travel_dil">
+                Lotus temple is one of the magnificent architectures of India. The Temple was constructed on the Bahai Faith and is located in the Kalkaji area in New Delhi. This capital city is the place for famous monuments, large buildings and Devotional Temples. Among them, Lotus Mandir is the most influential construction in India. All religious people are allowed to visit this Temple, and the environment fills with peace and joy. Hence the visitors do meditation and are overjoyed with the atmosphere of the TempleThe Lotus flower is sacred for the Hindus for its glory and purity in Indian culture and Society. Hindus believe that the flower symbolises love, peace, purity and immortality. These peculiar qualities of the flower became the important Icon in Hindu History. So the innocence and peculiarity of the flower inspired the construction of a temple in the design of a temple. The Temple was completed in 1986 as a Bahai Temple. Since then, India has recognised it as a beautiful and splendid temple. Thousands of tourists visit this sacred monument annually and enjoy looking at the Temple’s inside structures. This magnificent architecture and designs made us grand to everyone.
+            </div>
+        </div>
+    </div>
+
+    <div id="popup_flight_travlDil4" class="overlay_flight_traveldil">
+        <div class="popup_flight_travlDil">
+            <h2>dwarka</h2>
+            <a class="close_flight_travelDl" href="#">&times;</a>
+            <div class="content_flightht_travel_dil">
+                Dwarkadhish Temple also known as the Jagat Mandir, is a Chalukya styled architecture, dedicated to Lord Krishna. The town of Dwarka has its history dated back to the Kingdom of Dwaraka in Mahabharata. The five storied main shrine is grand and marvelous in itself constructed of limestone and sand. The 2200-year-old architecture, is believed to be built by Vajranabha, who constructed it over the land reclaimed from the sea by Lord Krishna. The temple showcases intricate sculptural detailing done by the ancestral dynasties that ruled the region and the black magnificent idol of Lord Krishna. There are other shrines within the temple which are devoted to Subhadra, Balarama and Revathy, Vasudeva, Rukmini and many others.
+            </div>
+        </div>
+    </div>
+    
+    <!-- footer -->
+    <footer>
+        <div class="footer-content" id="aboutUs">
+            <h3>Guide Spike</h3>
+            <p>Heyy guys welcome to Guide Spike!!</p>
+            <p>Here guide spike aim to give you the best and most up-to-date information on the major travel destinations around the world.</p>
+            <p>Here you will find things to see and do, and where to eat.</p>
+            <p>No matter what type of vacation you are going on — a cruise, backpacking trip, island getaway, two-week holiday, round-the-world trip, or family vacation — these Guide Spike will give you all the information you need so you can travel better, longer, and cheaper.</p>
+            <p>we know how bad it is to get outdated information in print guidebooks. We’ve been the victim of it too many times. We update this section twice a year to keep the content fresh!</p>
+            <p>Wish you happy and safe travelling!!</p>
+        </div>
+    </footer>
+</body>
+</html>

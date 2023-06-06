@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <title>Digital Tourist Guide</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                background-color: white;
+                color: black;
+            }
+
+            li a {
+                font-family: 'Times New Roman', Times, serif;
+                font-weight: 500;
+                font-size: 20px;
+                color: black;
+                text-decoration: none;
+            }
+
+            header {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                padding: 30px 10%;
+                margin: 0px;
+                border-bottom: 2px solid black;
+            }
+
+            #logo {
+                color: black;
+                cursor: pointer;
+                margin-right: auto;
+                font-size: 30px;
+            }
+
+            .navbar {
+                list-style: none;
+            }
+
+            .navbar li {
+                display: inline-block;
+                padding: 0px 20px;
+            }
+
+            .navbar li a {
+                transition: all 0.3s ease 0s;
+            }
+
+            .navbar li a:hover {
+                text-decoration: none;
+                color: #717171;
+            }
+
+            input {
+				margin: 10px;
+				padding: 10px;
+				border: 3px solid black;
+				border-radius: 10px;
+			}
+
+			.submit {
+				background-color: black;
+				color: white;
+			}
+
+            table
+            {
+                border-collapse: collapse;
+            }
+
+            table th, td
+            {
+                border: 2px solid black;
+                padding: 10px 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div id="logo">Digital Tourist Guide</div>
+            <nav class="navbar" id="navbar">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="find.html">Search</a></li>
+                    <li><a href="addItem.html">Add Item</a></li>
+                    <li><a href="addPlace.html">Add Place</a></li>
+                    <li><a href="login.html">Login/Logout</a></li>
+                    <li><a href="index.html#aboutUs">About Us</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="container">
+            {% if found1 %}
+                <h1>Information of inserted image:</h1>
+                <h1> {{ data1[0] }} </h1>
+                {% for score in scores %}
+                    <figure style="float: left; margin-right: 20px; margin-bottom: 20px;">
+                        <img src="{{ score[1] }}" height="200px">
+                    </figure>
+                {% endfor %}
+                <h3> {{ data1[1] }} </h3>
+
+                {% if found2 %}
+                    <br>
+                    <h1>Famous items near location:</h1>
+                    <table>
+                        <tr>
+                            <th>item name</th>
+                            <th>item description</th>
+                        </tr>
+                        {% for data in data2 %}
+                            <tr>
+                                {% for p in data %}
+                                    <td>{{ p }}</td>
+                                {%  endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <h1>Famous items near location:</h1>
+                    <p>Sorry, Data is not available.</p>
+                {% endif %}
+            {% else %}
+                <div id="camera">
+                    <video id="video" autoplay></video>
+                    <br>
+                    <button id="capture">Capture</button>
+                </div>
+
+                <canvas id="canvas" style="display: none;"></canvas>
+
+                <button id="submit">Submit</button>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const video = document.getElementById('video');
+                        const canvas = document.getElementById('canvas');
+                        const context = canvas.getContext('2d');
+                        let stream;
+
+                        const initializeCamera = () => {
+                            navigator.mediaDevices.getUserMedia({ video: true })
+                                .then((mediaStream) => {
+                                    stream = mediaStream;
+                                    video.srcObject = mediaStream;
+                                })
+                                .catch((error) => {
+                                    console.error('Unable to access the camera: ', error);
+                                });
+                        };
+
+                        const captureImage = () => {
+                            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        };
+
+                        const submitImage = () => {
+                            const imageData = canvas.toDataURL();
+
+                            fetch('/search', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ image: imageData }),
+                            })
+                                .then((response) => response.text())
+                                .then((data) => {
+                                    document.body.innerHTML = data;
+                                })
+                                .catch((error) => {
+                                    console.error('Error:', error);
+                                });
+                        };
+
+                        document.getElementById('capture').addEventListener('click', () => {
+                            captureImage();
+                        });
+
+                        document.getElementById('submit').addEventListener('click', () => {
+                            submitImage();
+                        });
+
+                        initializeCamera();
+                    });
+                </script>
+            {% endif %}
+        </div>
+    </body>
+</html>
